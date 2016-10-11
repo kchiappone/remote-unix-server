@@ -1,0 +1,26 @@
+<configuration debug="false" scan="false">
+
+    <property name="logback.file.path" value="${HOME:-${USERPROFILE}}/remote-unix-server" />
+    <property name="logback.file.name" value="${logback.file.path}/out.log" />
+    <property name="logback.file.name.rolled" value="${logback.file.path}/out.log-%d{yyyy-MM-dd}" />
+    <property name="logback.log.pattern" value="%d{MM/dd/yy HH:mm:ss} L[%level]C[%logger]P[%X{pid}]U[%X{caddress}] %msg%n" />
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.file.name}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logback.file.name.rolled}</fileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logback.log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="net.chiappone.unix.UnixCommander" level="WARN" />
+    <logger name="net.chiappone.unix.remote.command.UnixCommand" level="WARN" />
+
+    <root level="INFO">
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>
