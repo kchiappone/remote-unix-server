@@ -2,6 +2,7 @@ package net.chiappone.unix.remote.command;
 
 import net.chiappone.unix.CommandResult;
 import net.chiappone.unix.UnixCommander;
+import net.chiappone.unix.remote.json.JsonRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +19,12 @@ public class UnixCommand implements Command {
     private static final Logger logger = LoggerFactory.getLogger( UnixCommand.class );
     private String command = null;
     private UnixCommander commander = null;
+    private JsonRequest request = null;
 
-    public UnixCommand( UnixCommander commander, String command ) {
+    public UnixCommand( UnixCommander commander, JsonRequest request, String command ) {
 
         this.commander = commander;
+        this.request = request;
         this.command = command;
 
     }
@@ -34,7 +37,7 @@ public class UnixCommand implements Command {
         commands.add( "/bin/bash" );
         commands.add( "-c" );
         commands.add( command );
-        return commander.execute( commands );
+        return commander.execute( commands, request.isLogOutput(), request.isWaitForProcess() );
 
     }
 

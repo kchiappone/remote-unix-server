@@ -20,6 +20,8 @@ public class JsonRequest {
     private String timestamp = null;
     private String key = null;
     private String command = null;
+    private boolean waitForProcess = true;
+    private boolean logOutput = true;
 
     public JsonRequest( String key, String command ) {
 
@@ -27,6 +29,26 @@ public class JsonRequest {
         this.command = command;
         this.timestamp = df.get().format( new Date() );
 
+    }
+
+    public JsonRequest( String key, String command, boolean logOutput, boolean waitForProcess ) {
+
+        this.key = key;
+        this.command = command;
+        this.timestamp = df.get().format( new Date() );
+        this.logOutput = logOutput;
+        this.waitForProcess = waitForProcess;
+
+    }
+
+    public boolean isLogOutput() {
+
+        return logOutput;
+    }
+
+    public void setLogOutput( boolean logOutput ) {
+
+        this.logOutput = logOutput;
     }
 
     @Override public boolean equals( Object o ) {
@@ -38,6 +60,10 @@ public class JsonRequest {
 
         JsonRequest that = (JsonRequest) o;
 
+        if ( waitForProcess != that.waitForProcess )
+            return false;
+        if ( logOutput != that.logOutput )
+            return false;
         if ( timestamp != null ? !timestamp.equals( that.timestamp ) : that.timestamp != null )
             return false;
         if ( key != null ? !key.equals( that.key ) : that.key != null )
@@ -51,7 +77,19 @@ public class JsonRequest {
         int result = timestamp != null ? timestamp.hashCode() : 0;
         result = 31 * result + ( key != null ? key.hashCode() : 0 );
         result = 31 * result + ( command != null ? command.hashCode() : 0 );
+        result = 31 * result + ( waitForProcess ? 1 : 0 );
+        result = 31 * result + ( logOutput ? 1 : 0 );
         return result;
+    }
+
+    public boolean isWaitForProcess() {
+
+        return waitForProcess;
+    }
+
+    public void setWaitForProcess( boolean waitForProcess ) {
+
+        this.waitForProcess = waitForProcess;
     }
 
     public String getTimestamp() {

@@ -40,7 +40,7 @@ public class CommandParser {
             case "pid":
                 return new ProcessIdCommand( commander );
             default:
-                return new UnixCommand( commander, command );
+                return new UnixCommand( commander, request, command );
 
         }
 
